@@ -1,0 +1,190 @@
+---
+title: "EDA and Visuals"
+author: "Aleksander Rodriguez"
+date: "2024-04-24"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Exploratory Data Analysis
+Within this exploratory analysis statistical tests and visuals will be created based
+on the data provided. Variables will be labeled to be strong or weak depending on 
+their p-values, f-values, and correlation numbers. The visuals will be made based
+off some of the strongest variables to give information and the relation the that 
+variable has to BMI.
+
+
+```{r}
+# EDA Part 
+
+obesity <- read.csv("C:/Users/Alek4/OneDrive/Documents/CsvFiles/ObesityDataSet.csv")
+
+# Wanted to see how the data is spread out. I didn't want the data to be lopsided 
+# toward one demographic which could make models less accurate. The table 
+# shows that there is a good spread within the data.
+table(obesity$Obese_level)
+
+# Adding the BMI column by calculating it with weight and height. 
+# BMI stands for Body Mass Index. It measures an individual's body
+#weight relative to their height. 
+obesity$BMI <- obesity$Weight/(obesity$Height ^ 2)
+obesity$Weight_Status <- ifelse(obesity$BMI  >= 30, 1,0)
+head(obesity)
+```
+
+## Testing Variables
+
+Checking if the variable's represent a good p-value and f-value
+so we can make good analysts over the data given. Correlation test's will also 
+be used for continuous data to determine if the data is good to use. A strong 
+relation or correlation is what we are looking for.
+
+Age has strong a correlation 
+```{r}
+cor_results <- cor.test(obesity$BMI, obesity$Age)
+cor_results
+```
+Not a strong relation between BMI and gender
+```{r}
+t.test(BMI ~ Gender, data = obesity)
+```
+Weight has a strong correlation to BMI
+```{r}
+cor_results <- cor.test(obesity$BMI, obesity$Weight)
+cor_results
+```
+Height has a strong correlation but is not as strong as others to BMI
+```{r}
+cor_results <- cor.test(obesity$BMI, obesity$Height)
+cor_results
+
+```
+Alcohol has a strong relation with BMI
+```{r}
+anova_results <- aov(BMI ~ factor(Alcohol), data = obesity)
+summary(anova_results)
+```
+High_Cal has a strong relation with BMI
+```{r}
+t.test(BMI ~ High_Cal, data = obesity)
+```
+Veggies_consumed has a strong correlation to BMI
+```{r}
+cor.test(obesity$BMI, obesity$Veggies_consumed)
+```
+
+Meals_Daily surprisingly does not have a good correlation with BMI
+```{r}
+cor.test(obesity$BMI, obesity$Meals_Daily)
+```
+Monitor_Cals has a strong relation with BMI
+```{r}
+t.test(BMI ~ Monitor_Cals, data = obesity)
+```
+Smoke has a weak relation with BMI
+```{r}
+t.test(BMI ~ SMOKE, data = obesity)
+```
+Water_consumed has a strong correlation but is not as strong as others
+```{r}
+cor.test(obesity$BMI, obesity$Water_Consumed)
+```
+family_history_with_overweight has a strong relation with BMI
+```{r}
+t.test(BMI ~ family_history_with_overweight, data = obesity)
+```
+Physical_Activity has a strong correlation to BMI
+```{r}
+cor.test(obesity$BMI, obesity$Physical_Activity)
+```
+TUE has a strong correlation but is not as strong as others
+```{r}
+cor.test(obesity$BMI, obesity$TUE)
+```
+Transportation_Used has a strong relation to BMI 
+```{r}
+anova_results <- aov(BMI ~ factor(Tranportaion_Used), data = obesity)
+summary(anova_results)
+```
+## Summary of Testing
+
+  Throughout the EDA of this data, the discovery of many variables with a strong 
+correlation and relation to BMI were found. The EDA process found that the best 
+variables are the amount of consumption of alcohol, veggies, and high-calorie meals. 
+Others were the amount of physical activity, family history of being overweight, and 
+the mode of transportation used. These variables make sense due to the fact these
+correlate with healthy habits. Eating veggies and low calorie meals, with a significant
+amount of physical activity can help with weight loss. Mode of transportation can also
+help lower BMI levels due having to walking or biking places. Having family history of being
+overweight is another variable that makes sense. If one grows up in a house with others
+that do not maintain a low BMI then most likely the eating habits of their family 
+members would ware off on them. Drinking water was a strong correlation but was not 
+as important as others.
+
+  A surprising variable, that was one of the worst in finding a correlation with BMI,
+was the amount of meals one eats daily. This could provide insight into the fact that 
+it might not be about how often one eats, but rather what one eats. For example, if 
+you eat five times a day but consume veggies and low-calorie food, you might not 
+increase your BMI, compared to eating three times a day with high-calorie food. 
+Smoking and usage of technology were other weak variables.
+
+  Most of the variables made sense and had a reasonable relation to BMI. With the
+conclusion of the EDA process, the process of building visuals and models based 
+on the strong variables can commence to help communicate findings within the data.Then
+eventually give ideas, actions, and reasons of how to lower their BMI according to the data.
+
+
+## Visuals to Illustrate The EDA
+
+The following graph represents the importance of physical activity. The y-axis contains
+ones physical activity, x-axis contains ones BMI, and the dots calories according to 
+their obesity level. It shows show that to lower ones BMI and stray away form obesity 
+one should be more physically active. The graph gives evidence to why someone should 
+keep active physically. 
+```{r}
+library(ggplot2)
+
+ggplot(obesity, aes(x = BMI, y = Physical_Activity, color = factor(Obese_level))) +
+  geom_point() + 
+  labs(x = "BMI", y = "Physical Activity", 
+       title = "Relationship Between BMI and Physical Activity by Obesity Level") +
+  scale_color_discrete(name = "Obesity Level")
+```
+
+
+
+The following graph shows that higher calories within one's meals can effect their BMI's 
+by increasing it. Higher calories results in a higher BMI. This can also give 
+evidence as to why the amount of meals one eat does not matter but what they eat
+does. Less calories in one's meals is better for ones BMI. Food companies should be 
+encouraged to push lower calorie meals and the public should be informed on how much
+calorie intake is good for their body.
+```{r}
+ggplot(obesity, aes(x = High_Cal, y = BMI, fill = High_Cal)) +
+  geom_boxplot() +
+  labs(x = "High Caloric Intake", y = "BMI", 
+       title = "Relationship Between High Caloric Intake and BMI") +
+  theme_minimal()
+```
+
+
+
+The following graph shows the relation between family history of being overweight
+and ones BMI. The findings illustrate the strong correlation between these two variables.
+It gives the idea that if you were born into a family that is overweight you 
+will have a higher chance to be at a high BMI. If your family is overweight and maintains
+an unhealthy lifestyle you might partake or pick up those unhealthy habits as well. 
+```{r}
+ggplot(obesity, aes(x = family_history_with_overweight, y = BMI, fill = 
+                      family_history_with_overweight)) +
+  geom_boxplot() + 
+  labs(x = "Family History Of Being Overweight", y = "BMI", title = "BMI vs. Age with Obesity Level") +
+  scale_color_discrete(name = "Obesity Level")
+```
+
+
+
+
