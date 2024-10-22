@@ -10,12 +10,3 @@ Visualizations and model outputs are included to better communicate the findings
 The dataset includes records from individuals in Mexico, Peru, and Colombia, with features such as age, weight, calorie consumption, physical activity, and more. The project shows the power of machine learning in understanding public health challenges like obesity and provides actionable insights for managing weight.
 
 **Link to dataset**: [Kaggle - Obesity Levels Dataset](https://www.kaggle.com/datasets/fatemehmehrparvar/obesity-levels/data)
-
-
-# Save the updated content to a markdown file
-file_path_ml_md = '/mnt/data/README_BMI_Obesity_Project_ML.md'
-
-with open(file_path_ml_md, 'w') as file:
-    file.write(content_ml)
-
-file_path_ml_md
