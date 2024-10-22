@@ -1,5 +1,4 @@
-# Updating the project summary to emphasize machine learning aspects
-content_ml = """
+
 ## Project Summary: BMI and Obesity Analysis with Machine Learning
 
 This project aims to analyze factors influencing Body Mass Index (BMI) and to leverage **machine learning** models to predict BMI levels. Using a dataset from Kaggle, we performed data cleaning in Excel and comprehensive analysis in RStudio, applying statistical tests like Correlation Tests, T-tests, and ANOVA to identify variables significantly associated with BMI. Key factors, such as high-calorie intake, physical activity, and family history of obesity, were explored and their relationship to BMI was established.
@@ -11,7 +10,7 @@ Visualizations and model outputs are included to better communicate the findings
 The dataset includes records from individuals in Mexico, Peru, and Colombia, with features such as age, weight, calorie consumption, physical activity, and more. The project shows the power of machine learning in understanding public health challenges like obesity and provides actionable insights for managing weight.
 
 **Link to dataset**: [Kaggle - Obesity Levels Dataset](https://www.kaggle.com/datasets/fatemehmehrparvar/obesity-levels/data)
-"""
+
 
 # Save the updated content to a markdown file
 file_path_ml_md = '/mnt/data/README_BMI_Obesity_Project_ML.md'
